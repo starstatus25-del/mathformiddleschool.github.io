@@ -1,0 +1,1064 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b12">
+<title>NEON ARCADE | Play Instantly</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --bg: #080b12;
+    --panel: #0e131e;
+    --panel2: #121927;
+    --border: rgba(255,255,255,.075);
+    --text: #f3f6ff;
+    --muted: #858da2;
+    --cyan: #47f5e4;
+    --purple: #9c78ff;
+    --radius: 17px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 75% 0%, rgba(74, 53, 150, .13), transparent 38%),
+        var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, sans-serif;
+    overflow-x: hidden;
+}
+
+button, input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.layout {
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 238px;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 20;
+    padding: 27px 17px;
+    background: rgba(10, 14, 23, .94);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(18px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 0 8px;
+    margin-bottom: 43px;
+}
+
+.brand-icon {
+    width: 39px;
+    height: 39px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: #06100f;
+    font-size: 22px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--cyan), #9bfff5);
+    box-shadow: 0 0 25px rgba(71,245,228,.17);
+}
+
+.brand-name {
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+}
+
+.brand-name span {
+    color: var(--cyan);
+}
+
+.nav-label {
+    color: #626b80;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    padding: 0 12px;
+    margin: 0 0 12px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav a, .nav button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 13px;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 11px;
+    color: var(--muted);
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.nav a:hover, .nav button:hover {
+    color: white;
+    background: rgba(255,255,255,.045);
+}
+
+.nav a.active {
+    color: var(--cyan);
+    background: rgba(71,245,228,.08);
+    border-color: rgba(71,245,228,.11);
+}
+
+.nav-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.nav-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 23px 7px;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 15px;
+    border: 1px solid var(--border);
+    background: linear-gradient(145deg, rgba(71,245,228,.06), rgba(156,120,255,.05));
+    border-radius: 14px;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan);
+    margin-right: 6px;
+}
+
+.sidebar-bottom p {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 238px;
+    min-height: 100vh;
+    padding: 0 38px 55px;
+    max-width: 1800px;
+}
+
+.topbar {
+    height: 87px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.page-context {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.page-context strong {
+    color: white;
+    font-weight: 600;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-wrap {
+    position: relative;
+    width: min(310px, 35vw);
+}
+
+.search-wrap span {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #788298;
+}
+
+.search {
+    width: 100%;
+    padding: 12px 42px 12px 39px;
+    border-radius: 11px;
+    outline: none;
+    color: white;
+    background: #111725;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    transition: .2s;
+}
+
+.search:focus {
+    border-color: rgba(71,245,228,.5);
+    box-shadow: 0 0 0 3px rgba(71,245,228,.06);
+}
+
+.search::placeholder {
+    color: #687187;
+}
+
+.shortcut {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #687187;
+    font-size: 10px;
+    border: 1px solid var(--border);
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+
+.profile {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(156,120,255,.35);
+    background: linear-gradient(135deg, #282044, #152c3b);
+    border-radius: 12px;
+    font-size: 17px;
+}
+
+/* HERO */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 330px;
+    padding: 45px 42px;
+    border: 1px solid rgba(156,120,255,.2);
+    border-radius: 22px;
+    background:
+        radial-gradient(ellipse at 80% 50%, rgba(109,73,215,.24), transparent 37%),
+        radial-gradient(ellipse at 100% 100%, rgba(71,245,228,.10), transparent 40%),
+        linear-gradient(120deg, #121827, #111321 70%, #17132a);
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .15;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 35px 35px;
+    mask-image: linear-gradient(90deg, black, transparent);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 490px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border: 1px solid rgba(71,245,228,.2);
+    background: rgba(71,245,228,.06);
+    border-radius: 7px;
+    color: var(--cyan);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    margin-bottom: 22px;
+}
+
+.hero h1 {
+    font-size: clamp(34px, 4.1vw, 55px);
+    line-height: 1.08;
+    letter-spacing: -2.6px;
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.hero h1 span {
+    background: linear-gradient(90deg, var(--cyan), #a4a5ff 70%);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.hero p {
+    max-width: 380px;
+    color: #a3abc0;
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.hero-buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 11px;
+}
+
+.btn-primary, .btn-secondary {
+    border-radius: 10px;
+    padding: 13px 17px;
+    font-size: 12px;
+    font-weight: 800;
+    transition: transform .2s, box-shadow .2s, background .2s;
+}
+
+.btn-primary {
+    border: 0;
+    background: var(--cyan);
+    color: #071311;
+    box-shadow: 0 0 22px rgba(71,245,228,.13);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 28px rgba(71,245,228,.25);
+}
+
+.btn-secondary {
+    border: 1px solid rgba(255,255,255,.12);
+    color: white;
+    background: rgba(255,255,255,.035);
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,.08);
+}
+
+.hero-art {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    right: 7%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+}
+
+.orbit {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border: 1px solid rgba(71,245,228,.35);
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(71,245,228,.07), inset 0 0 40px rgba(71,245,228,.04);
+    transform: rotateX(63deg) rotateZ(-25deg);
+}
+
+.orbit.two {
+    width: 175px;
+    height: 250px;
+    border-color: rgba(156,120,255,.6);
+    transform: rotateX(63deg) rotateZ(45deg);
+}
+
+.orbit.three {
+    width: 135px;
+    height: 135px;
+    border-color: rgba(71,245,228,.6);
+    transform: rotateX(63deg) rotateZ(20deg);
+}
+
+.core {
+    position: relative;
+    width: 83px;
+    height: 83px;
+    display: grid;
+    place-items: center;
+    border-radius: 24px;
+    transform: rotate(45deg);
+    background: linear-gradient(135deg, rgba(71,245,228,.18), rgba(156,120,255,.25));
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 0 60px rgba(156,120,255,.24);
+}
+
+.core span {
+    transform: rotate(-45deg);
+    font-size: 35px;
+    color: white;
+    text-shadow: 0 0 18px var(--cyan);
+}
+
+.spark {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--cyan);
+    box-shadow: 0 0 15px var(--cyan);
+}
+
+.spark.s1 { top: 47px; left: 85px; }
+.spark.s2 { bottom: 70px; right: 45px; background: var(--purple); }
+.spark.s3 { top: 92px; right: 28px; width: 4px; height: 4px; }
+
+/* SECTIONS */
+
+.section {
+    margin-top: 36px;
+    scroll-margin-top: 25px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 15px;
+    margin-bottom: 19px;
+}
+
+.section-heading h2 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 7px;
+}
+
+.section-tag {
+    color: #929ab0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* CATEGORY FILTERS */
+
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter {
+    flex: 0 0 auto;
+    border: 1px solid var(--border);
+    background: #101521;
+    color: #9aa3b8;
+    border-radius: 9px;
+    padding: 10px 15px;
+    font-size: 11px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.filter:hover {
+    color: white;
+    border-color: rgba(71,245,228,.3);
+}
+
+.filter.active {
+    color: var(--cyan);
+    background: rgba(71,245,228,.08);
+    border-color: rgba(71,245,228,.25);
+}
+
+/* EMPTY GAME LIBRARY */
+
+.library {
+    min-height: 275px;
+    border: 1px dashed rgba(255,255,255,.12);
+    border-radius: var(--radius);
+    background:
+        radial-gradient(ellipse at center, rgba(71,245,228,.035), transparent 60%),
+        rgba(255,255,255,.012);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.empty-content {
+    max-width: 350px;
+}
+
+.empty-icon {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 19px;
+    border-radius: 20px;
+    border: 1px solid rgba(71,245,228,.16);
+    background: rgba(71,245,228,.045);
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    color: var(--cyan);
+    box-shadow: 0 0 40px rgba(71,245,228,.035);
+}
+
+.empty-content h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 9px;
+}
+
+.empty-content p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+/* FOOTER */
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 35px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    color: #687187;
+    font-size: 10px;
+}
+
+.footer strong {
+    color: #aab2c5;
+    letter-spacing: 1px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 17px;
+}
+
+.footer a:hover {
+    color: var(--cyan);
+}
+
+/* MOBILE */
+
+.mobile-top {
+    display: none;
+}
+
+.overlay {
+    display: none;
+}
+
+@media (max-width: 1050px) {
+    .main {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .hero-art {
+        right: 0;
+        opacity: .7;
+        transform: translate(12%, -50%) scale(.8);
+    }
+
+    .hero-content {
+        max-width: 440px;
+    }
+}
+
+@media (max-width: 760px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        box-shadow: 20px 0 60px rgba(0,0,0,.3);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .overlay.open {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 15;
+        background: rgba(0,0,0,.65);
+        backdrop-filter: blur(3px);
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 0 17px 30px;
+    }
+
+    .mobile-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 19px;
+    }
+
+    .mobile-brand {
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 1px;
+    }
+
+    .mobile-brand span {
+        color: var(--cyan);
+    }
+
+    .menu-button {
+        display: grid;
+        place-items: center;
+        width: 39px;
+        height: 39px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: white;
+        font-size: 20px;
+    }
+
+    .topbar {
+        height: auto;
+        margin-bottom: 20px;
+        align-items: center;
+    }
+
+    .page-context {
+        display: none;
+    }
+
+    .top-actions {
+        width: 100%;
+    }
+
+    .search-wrap {
+        width: 100%;
+    }
+
+    .profile {
+        flex-shrink: 0;
+    }
+
+    .hero {
+        min-height: 365px;
+        padding: 31px 23px;
+    }
+
+    .hero h1 {
+        font-size: clamp(34px, 9vw, 47px);
+        letter-spacing: -1.8px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero p {
+        max-width: 290px;
+    }
+
+    .hero-art {
+        right: -115px;
+        top: auto;
+        bottom: -100px;
+        transform: scale(.65);
+        opacity: .22;
+    }
+
+    .section {
+        margin-top: 29px;
+    }
+
+    .section-heading h2 {
+        font-size: 16px;
+    }
+
+    .library {
+        min-height: 245px;
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.8;
+    }
+}
+
+@media (max-width: 390px) {
+    .brand-name {
+        font-size: 13px;
+    }
+
+    .hero {
+        padding: 26px 19px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 12px 13px;
+        font-size: 11px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <a href="#" class="brand" aria-label="Neon Arcade home">
+        <div class="brand-icon">N</div>
+        <div class="brand-name">NEON <span>ARCADE</span></div>
+    </a>
+
+    <div class="nav-label">WORKSPACE</div>
+
+    <nav class="nav" aria-label="Main navigation">
+        <a class="active" href="#home">
+            <span class="nav-icon">⌂</span> Home
+        </a>
+        <a href="#discover">
+            <span class="nav-icon">◈</span> Discover
+        </a>
+        <a href="#library">
+            <span class="nav-icon">♡</span> Favorites
+        </a>
+        <a href="#library">
+            <span class="nav-icon">◷</span> Recently Played
+        </a>
+    </nav>
+
+    <div class="nav-divider"></div>
+
+    <div class="nav-label">CATEGORIES</div>
+
+    <nav class="nav" aria-label="Game categories">
+        <button class="side-category" data-category="All">
+            <span class="nav-icon">▦</span> All Games
+        </button>
+        <button class="side-category" data-category="Action">
+            <span class="nav-icon">⚔</span> Action
+        </button>
+        <button class="side-category" data-category="Racing">
+            <span class="nav-icon">➤</span> Racing
+        </button>
+        <button class="side-category" data-category="Puzzle">
+            <span class="nav-icon">▧</span> Puzzle
+        </button>
+        <button class="side-category" data-category="Sports">
+            <span class="nav-icon">◎</span> Sports
+        </button>
+        <button class="side-category" data-category="Multiplayer">
+            <span class="nav-icon">♧</span> Multiplayer
+        </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <p><span class="status-dot"></span> ARCADE READY</p>
+        <p>Your next gaming session starts here.</p>
+    </div>
+</aside>
+
+<main class="main" id="home">
+
+    <div class="mobile-top">
+        <button class="menu-button" id="menuButton" aria-label="Open navigation">☰</button>
+        <div class="mobile-brand">NEON <span>ARCADE</span></div>
+        <div style="width:39px"></div>
+    </div>
+
+    <header class="topbar">
+        <div class="page-context">Workspace / <strong>Home</strong></div>
+
+        <div class="top-actions">
+            <label class="search-wrap">
+                <span>⌕</span>
+                <input
+                    class="search"
+                    id="gameSearch"
+                    type="search"
+                    placeholder="Search games..."
+                    aria-label="Search games"
+                    autocomplete="off"
+                >
+                <span class="shortcut">/</span>
+            </label>
+            <div class="profile" title="Player profile">👾</div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="eyebrow">
+                <span class="status-dot"></span>
+                YOUR ARCADE. YOUR RULES.
+            </div>
+
+            <h1>YOUR NEXT GAME<br>STARTS <span>HERE.</span></h1>
+
+            <p>
+                Discover your next favorite game.
+                No downloads, no waiting around.
+                Just open your arcade and play.
+            </p>
+
+            <div class="hero-buttons">
+                <button class="btn-primary" id="exploreButton">
+                    Explore Arcade <span>↗</span>
+                </button>
+                <button class="btn-secondary" id="categoryButton">
+                    Browse Categories
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+            <div class="orbit"></div>
+            <div class="orbit two"></div>
+            <div class="orbit three"></div>
+            <div class="core"><span>✦</span></div>
+            <div class="spark s1"></div>
+            <div class="spark s2"></div>
+            <div class="spark s3"></div>
+        </div>
+    </section>
+
+    <section class="section" id="discover">
+        <div class="section-heading">
+            <div>
+                <h2>Find Your Game</h2>
+                <p>Pick your mood. Find your next obsession.</p>
+            </div>
+            <span class="section-tag">EXPLORE</span>
+        </div>
+
+        <div class="filters" id="filters" aria-label="Filter games by category">
+            <button class="filter active" data-category="All">✦ All Games</button>
+            <button class="filter" data-category="Action">⚔ Action</button>
+            <button class="filter" data-category="Racing">➤ Racing</button>
+            <button class="filter" data-category="Puzzle">▧ Puzzle</button>
+            <button class="filter" data-category="Sports">◎ Sports</button>
+            <button class="filter" data-category="Multiplayer">♧ Multiplayer</button>
+        </div>
+    </section>
+
+    <section class="section" id="library">
+        <div class="section-heading">
+            <div>
+                <h2>The Arcade</h2>
+                <p>Your games will show up here.</p>
+            </div>
+            <span class="section-tag">GAME LIBRARY</span>
+        </div>
+
+        <!-- GAME CARDS WILL BE ADDED HERE -->
+
+        <div class="library" id="emptyLibrary">
+            <div class="empty-content">
+                <div class="empty-icon">⌘</div>
+                <h3>Your arcade is waiting.</h3>
+                <p>
+                    The layout is ready. Add your game links and
+                    we'll turn this empty space into your own
+                    gaming collection.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p><strong>NEON ARCADE</strong> &nbsp; Built for your next high score.</p>
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#discover">Discover</a>
+            <a href="#library">Games</a>
+        </div>
+    </footer>
+
+</main>
+
+<script>
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const menuButton = document.getElementById("menuButton");
+
+function closeMenu() {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("open");
+}
+
+menuButton.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    overlay.classList.toggle("open");
+});
+
+overlay.addEventListener("click", closeMenu);
+
+document.querySelectorAll(".sidebar a").forEach(link => {
+    link.addEventListener("click", () => {
+        closeMenu();
+
+        document.querySelectorAll(".sidebar a").forEach(item => {
+            item.classList.remove("active");
+        });
+
+        if (link.getAttribute("href") !== "#library") {
+            link.classList.add("active");
+        }
+    });
+});
+
+document.getElementById("exploreButton").addEventListener("click", () => {
+    document.getElementById("library").scrollIntoView({
+        behavior: "smooth"
+    });
+});
+
+document.getElementById("categoryButton").addEventListener("click", () => {
+    document.getElementById("discover").scrollIntoView({
+        behavior: "smooth"
+    });
+});
+
+const searchInput = document.getElementById("gameSearch");
+
+searchInput.addEventListener("input", () => {
+    /*
+      Game search will be connected to your real game list
+      when you send the game links.
+    */
+});
+
+document.querySelectorAll(".filter").forEach(button => {
+    button.addEventListener("click", () => {
+        document.querySelectorAll(".filter").forEach(item => {
+            item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        const category = button.dataset.category;
+
+        document.querySelectorAll(".side-category").forEach(item => {
+            item.classList.toggle(
+                "active",
+                item.dataset.category === category
+            );
+        });
+    });
+});
+
+document.querySelectorAll(".side-category").forEach(button => {
+    button.addEventListener("click", () => {
+        const category = button.dataset.category;
+
+        document.querySelectorAll(".filter").forEach(item => {
+            item.classList.toggle(
+                "active",
+                item.dataset.category === category
+            );
+        });
+
+        document.getElementById("discover").scrollIntoView({
+            behavior: "smooth"
+        });
+
+        closeMenu();
+    });
+});
+
+document.addEventListener("keydown", event => {
+    const tag = document.activeElement.tagName;
+
+    if (
+        event.key === "/" &&
+        tag !== "INPUT" &&
+        tag !== "TEXTAREA"
+    ) {
+        event.preventDefault();
+        searchInput.focus();
+    }
+
+    if (event.key === "Escape") {
+        searchInput.blur();
+        closeMenu();
+    }
+});
+</script>
+
+</body>
+</html>
