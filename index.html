@@ -926,6 +926,214 @@ a {
         </div>
 
         <!-- GAME CARDS WILL BE ADDED HERE -->
+        
+<!-- BASKETBALL STARS GAME CARD -->
+<div class="game-grid" id="gameGrid">
+    <article class="game-card" data-category="Sports" data-name="Basketball Stars">
+        <a
+            class="game-cover"
+            href="https://raw.githack.com/BasketballStarsUnblocked/BasketballStarsUnblocked.github.io/refs/heads/main/index.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Play Basketball Stars"
+        >
+            <img
+                src="https://raw.githack.com/BasketballStarsUnblocked/BasketballStarsUnblocked.github.io/refs/heads/main/images/header.jpg"
+                alt="Basketball Stars"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
+            >
+            <div class="game-fallback" style="display:none;">🏀</div>
+            <span class="game-badge">SPORTS</span>
+            <span class="game-play">▶ PLAY NOW</span>
+        </a>
+
+        <div class="game-info">
+            <div>
+                <h3>Basketball Stars</h3>
+                <p>🏀 Basketball · Multiplayer</p>
+            </div>
+            <button class="favorite-btn" aria-label="Add Basketball Stars to favorites" title="Favorite">♡</button>
+        </div>
+    </article>
+</div>
+
+<style>
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 18px;
+}
+
+.game-card {
+    overflow: hidden;
+    min-width: 0;
+    background: #0e131e;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 15px;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(71,245,228,.4);
+    box-shadow: 0 12px 35px rgba(0,0,0,.25);
+}
+
+.game-cover {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 155px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 40%, #49356f, transparent 55%),
+        linear-gradient(135deg, #192c3a, #171326);
+}
+
+.game-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s;
+}
+
+.game-card:hover .game-cover img {
+    transform: scale(1.06);
+}
+
+.game-fallback {
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    font-size: 55px;
+}
+
+.game-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 6px 8px;
+    border: 1px solid rgba(71,245,228,.25);
+    border-radius: 6px;
+    color: #47f5e4;
+    background: rgba(8,11,18,.85);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.game-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(5,10,17,.58);
+    color: #47f5e4;
+    font-size: 13px;
+    font-weight: 900;
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+.game-card:hover .game-play,
+.game-cover:focus-visible .game-play {
+    opacity: 1;
+}
+
+.game-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 15px 13px;
+}
+
+.game-info h3 {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+
+.game-info p {
+    color: #858da2;
+    font-size: 10px;
+}
+
+.favorite-btn {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 10px;
+    color: #a5aec1;
+    background: #141b29;
+    font-size: 21px;
+}
+
+.favorite-btn.active {
+    color: #ff6da8;
+    border-color: rgba(255,109,168,.35);
+}
+
+@media (max-width: 500px) {
+    .game-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .game-cover {
+        height: 115px;
+    }
+
+    .game-info {
+        padding: 11px 9px;
+    }
+
+    .game-info h3 {
+        font-size: 11px;
+    }
+}
+</style>
+
+<script>
+const gameCard = document.querySelector(".game-card");
+
+document.querySelectorAll(".favorite-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        button.classList.toggle("active");
+        button.textContent = button.classList.contains("active") ? "♥" : "♡";
+    });
+});
+
+// Connect the existing search bar to the game cards.
+document.getElementById("gameSearch").addEventListener("input", event => {
+    const query = event.target.value.toLowerCase().trim();
+
+    document.querySelectorAll(".game-card").forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        const category = card.dataset.category.toLowerCase();
+
+        card.style.display =
+            name.includes(query) || category.includes(query) ? "" : "none";
+    });
+});
+
+// Connect the category buttons to the actual game cards.
+document.querySelectorAll(".filter, .side-category").forEach(button => {
+    button.addEventListener("click", () => {
+        const category = button.dataset.category;
+
+        document.querySelectorAll(".game-card").forEach(card => {
+            card.style.display =
+                category === "All" || card.dataset.category === category
+                    ? ""
+                    : "none";
+        });
+    });
+});
+</script>
+
 
         <div class="library" id="emptyLibrary">
             <div class="empty-content">
